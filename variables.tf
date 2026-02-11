@@ -16,6 +16,7 @@ Optional:
     - event_system_properties
     - identity_id
     - mapping_rule_name
+    - retrieval_start_date
     - table_name
 EOT
 
@@ -27,12 +28,13 @@ EOT
     location                = string
     name                    = string
     resource_group_name     = string
-    compression             = optional(string, "None")
+    compression             = optional(string) # Default: "None"
     data_format             = optional(string)
-    database_routing_type   = optional(string, "Single")
+    database_routing_type   = optional(string) # Default: "Single"
     event_system_properties = optional(list(string))
     identity_id             = optional(string)
     mapping_rule_name       = optional(string)
+    retrieval_start_date    = optional(string)
     table_name              = optional(string)
   }))
 }

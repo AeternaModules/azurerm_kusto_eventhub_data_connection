@@ -14,6 +14,7 @@ resource "azurerm_kusto_eventhub_data_connection" "kusto_eventhub_data_connectio
   event_system_properties = each.value.event_system_properties
   identity_id             = each.value.identity_id
   mapping_rule_name       = each.value.mapping_rule_name
+  retrieval_start_date    = each.value.retrieval_start_date
   table_name              = each.value.table_name
 }
 

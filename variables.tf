@@ -28,23 +28,15 @@ EOT
     location                = string
     name                    = string
     resource_group_name     = string
-    compression             = optional(string) # Default: "None"
+    compression             = optional(string)
     data_format             = optional(string)
-    database_routing_type   = optional(string) # Default: "Single"
+    database_routing_type   = optional(string)
     event_system_properties = optional(list(string))
     identity_id             = optional(string)
     mapping_rule_name       = optional(string)
     retrieval_start_date    = optional(string)
     table_name              = optional(string)
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.kusto_eventhub_data_connections : (
-        v.event_system_properties == null || (length(v.event_system_properties) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_kusto_eventhub_data_connection's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -91,6 +83,9 @@ EOT
   #   source:    [from eventhubs.ValidateEventhubID] !ok
   # path: eventhub_id
   #   source:    [from eventhubs.ValidateEventhubID] err != nil
+  # path: event_system_properties[*]
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: consumer_group
   #   source:    validation.Any(...) - no translation rule yet, add one
   # path: table_name
